@@ -6,12 +6,11 @@ import About from './components/About';
 import { useState } from 'react';
 import Alert from './components/Alert';
 import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-//   Link
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
   const [alert, setalert] = useState(null);
 
   const toggleMode = ()=> {
-    if(mode==='blue' || mode==='dark'){
+    if(mode==='dark'){
       setMode('light');
       document.body.style.backgroundColor ="white";
       showAlert("Light Mode has been enable","success");
@@ -33,20 +32,7 @@ function App() {
     }
   }
 
-  const toggleBMode = ()=>{
-    if(mode==='blue' || mode==='dark'){
-      setMode('light');
-      document.body.style.backgroundColor ="white";
-      showAlert("Red Mode has been enable","success");
-    }
-    else{
-      setMode('blue');
-      document.body.style.backgroundColor ="#00d4ff";
-      showAlert("Light Mode has been enable","success");
-
-    }
-  }
-
+   
   const showAlert = (message,type)=> {
       setalert({
         msg : message,
@@ -60,13 +46,21 @@ function App() {
 
   return (
   <>
-  {/* <Router> */}
-  <Navbar title = "Textutils" about = "About Us" mode={mode} toggleMode = {toggleMode} toggleBMode = {toggleBMode}/>
+  <Router>
+  <Navbar title = "TextUtils" about = "About Us" mode={mode} toggleMode = {toggleMode} />
   <Alert alert = {alert} />
   <div className="container my-3">
-  <Textform showAlert={showAlert} heading = " Enter the text to analyze" mode = {mode}/>
+
+      <Switch>
+              <Route path="/about">
+                <About mode={mode}/>
+              </Route>
+              <Route path="/">
+              <Textform showAlert={showAlert} heading = "Try TextUtils - Word counter and Text Manipulator " mode = {mode}/>
+              </Route>
+            </Switch>
   </div>
-  {/* </Router> */}
+  </Router>
 
  </>
   );
